@@ -7,12 +7,13 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-public class CompletionNotifier implements Callback<JsonNode>,NotificationCallBack{
+public class CompletionNotifier implements Callback<JsonNode>,
+		NotificationCallBack {
 
-	public CompletionNotifier(){
+	public CompletionNotifier() {
 		status = Status.OnGoing;
 	}
-	
+
 	public JSONObject getJsonObject() {
 		return jsonObject;
 	}
@@ -22,9 +23,12 @@ public class CompletionNotifier implements Callback<JsonNode>,NotificationCallBa
 	}
 
 	public void completed(HttpResponse<JsonNode> response) {
-		//handle 400 response here
-		jsonObject = response.getBody().getObject();
-		status = Status.Completed;
+		if (response.getCode() != 200) {
+			status = Status.Error;
+		} else {
+			jsonObject = response.getBody().getObject();
+			status = Status.Completed;
+		}
 	}
 
 	public void failed(UnirestException e) {
@@ -40,10 +44,9 @@ public class CompletionNotifier implements Callback<JsonNode>,NotificationCallBa
 	public Status status() {
 		return status;
 	}
-	
-	public boolean isDone(){
-		if(status == Status.OnGoing)return false;
-		return true;
+
+	public boolean isDone() {
+		return status != Status.OnGoing;
 	}
 
 	private Status status;
