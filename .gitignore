@@ -2,6 +2,11 @@
 build/
 .settings/
 bin/
+<<<<<<< HEAD
 .project
 .classpath
+=======
+*/.project
+*/.classpath
+>>>>>>> e0ee4e4050b269178f9b1e25431e3e14961d703a
 properties/app.properties
