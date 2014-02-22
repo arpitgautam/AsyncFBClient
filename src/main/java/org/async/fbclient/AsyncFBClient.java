@@ -7,6 +7,8 @@ import com.mashape.unirest.http.async.Callback;
 
 public interface AsyncFBClient {
 
-	Future<? extends Object> getUserDetails(Callback<JsonNode> callBack);
+	void getUserDetails(Callback<JsonNode> callBack);
+
+	void getFriendList(CompletionNotifier friendListCallBack);
 
 }
