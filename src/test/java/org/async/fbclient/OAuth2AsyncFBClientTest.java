@@ -3,25 +3,32 @@ package org.async.fbclient;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.anyString;
 
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 
+@RunWith(MockitoJUnitRunner.class)
 public class OAuth2AsyncFBClientTest {
 
 	private OAuth2AsyncFBClient classUT;
+	@Mock
 	private UniRestWrapper mockedWrapper;
+	@Mock
 	private GetRequest mockedGetRequest;
+	@Mock
 	private HttpRequest mockedHttpRequest;
+	@Mock
 	private CompletionNotifier mockedCallback;
 
 	@Before
 	public void setup() {
 
-		mockDependencies();
 		classUT = new OAuth2AsyncFBClient("dummy", mockedWrapper);
 		mockDependecyMethodCalls();
 	}
@@ -33,13 +40,6 @@ public class OAuth2AsyncFBClientTest {
 				.thenReturn(mockedHttpRequest);
 		Mockito.when(mockedHttpRequest.header(anyString(), anyString()))
 		.thenReturn(mockedHttpRequest);
-	}
-
-	private void mockDependencies() {
-		mockedWrapper = Mockito.mock(UniRestWrapper.class);
-		mockedGetRequest = Mockito.mock(GetRequest.class);
-		mockedHttpRequest = Mockito.mock(HttpRequest.class);
-		mockedCallback = Mockito.mock(CompletionNotifier.class);
 	}
 
 	@Test

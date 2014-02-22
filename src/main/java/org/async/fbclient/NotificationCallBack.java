@@ -4,7 +4,7 @@ public interface NotificationCallBack {
 
 	Status status();
 	enum Status{
-		Completed,OnGoing,Canceled,Failed
+		Completed,OnGoing,Canceled,Failed,Error
 	}
 	boolean isDone();
 }
