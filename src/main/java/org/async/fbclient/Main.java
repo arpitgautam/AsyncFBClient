@@ -18,13 +18,15 @@ public class Main {
 		String ACCESS_TOKEN = props.getProperty("ACCESS_TOKEN");
 	
 		AsyncFBClient fbC = new OAuth2AsyncFBClient(ACCESS_TOKEN,new UniRestWrapper());
-		CompletionNotifier callback = new CompletionNotifier();
-		fbC.getUserDetails(callback);
-		while(!callback.isDone()){
+		CompletionNotifier userDetailsCallback = new CompletionNotifier();
+		CompletionNotifier friendListCallBack = new CompletionNotifier();
+		fbC.getUserDetails(userDetailsCallback);
+		fbC.getFriendList(friendListCallBack);
+		while(!userDetailsCallback.isDone() && !friendListCallBack.isDone()){
 			Thread.sleep(100);
 		}
-		if(callback.status() == Status.Completed){
-			JSONObject object = callback.getJsonObject();
+		if(userDetailsCallback.status() == Status.Completed){
+			JSONObject object = userDetailsCallback.getJsonObject();
 			System.out.println(object.get("first_name"));
 		}
 		System.out.println("Done");

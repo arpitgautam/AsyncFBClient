@@ -16,12 +16,17 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 	}
 	
 
-	public Future<? extends Object> getUserDetails(Callback<JsonNode> callBack) {
-
-		return wrapper.get("https://graph.facebook.com/me")
+	public void getUserDetails(Callback<JsonNode> callBack) {
+		wrapper.get("https://graph.facebook.com/me")
 				.header("Content-Type", "application/json")
 				.header("Authorization", "Bearer " + access_token)
 				.asJsonAsync(callBack);
+	}
+
+
+	public void getFriendList(CompletionNotifier friendListCallBack) {
+		
+		
 	}
 
 }
