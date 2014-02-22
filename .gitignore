@@ -2,6 +2,6 @@
 build/
 .settings/
 bin/
-*/.project
-*/.classpath
+.project
+.classpath
 properties/app.properties
