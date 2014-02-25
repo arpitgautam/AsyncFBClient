@@ -2,15 +2,6 @@ package org.async.fbclient;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import org.async.fbclient.beans.UserBean;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +14,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.restfb.json.JsonObject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -99,20 +89,6 @@ public class CompletionNotifierTest {
 		when(mockedResponse.getCode()).thenReturn(401);
 		classUT.completed(mockedResponse);
 		assertThat(classUT.status(), equalTo(NotificationCallBack.Status.Error));
-	}
-
-	@Test
-	public void userObjectDeserialTest() throws IOException, JSONException, URISyntaxException {
-		java.net.URL url = CompletionNotifierTest.class
-				.getResource("UserData.txt");
-		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
-		String text = new String(java.nio.file.Files.readAllBytes(resPath),
-				"UTF8");
-		JSONObject expected = new  JSONObject(text);
-		UserBean bean = classUT.<UserBean> deserialize(text, UserBean.class);
-		System.out.println(bean.toString());
-		assertThat(expected.getString("first_name"),equalTo(bean.getFirstName()));
-		
 	}
 
 }
