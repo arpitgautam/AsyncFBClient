@@ -2,6 +2,15 @@ package org.async.fbclient;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.async.fbclient.beans.UserBean;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +23,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.restfb.json.JsonObject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -25,65 +35,84 @@ public class CompletionNotifierTest {
 	@Mock
 	private HttpResponse<JsonNode> mockedResponse;
 	@Mock
-	private JsonNode mockedJsonNode; 
+	private JsonNode mockedJsonNode;
 	@Mock
 	private UnirestException mockedExpcetion;
-	
+
 	@Before
-	public void setup(){
+	public void setup() {
 		classUT = new CompletionNotifier();
 		when(mockedResponse.getBody()).thenReturn(mockedJsonNode);
 		when(mockedResponse.getCode()).thenReturn(200);
 	}
-	
+
 	@Test
 	public void onGoingTest() {
-		assertThat(classUT.status(),equalTo(NotificationCallBack.Status.OnGoing));
+		assertThat(classUT.status(),
+				equalTo(NotificationCallBack.Status.OnGoing));
 	}
-	
+
 	@Test
-	public void onCompleteTest(){
+	public void onCompleteTest() {
 		classUT.completed(mockedResponse);
-		assertThat(classUT.status(),equalTo(NotificationCallBack.Status.Completed));
+		assertThat(classUT.status(),
+				equalTo(NotificationCallBack.Status.Completed));
 	}
-	
+
 	@Test
-	public void onFailedTest(){
+	public void onFailedTest() {
 		classUT.failed(mockedExpcetion);
-		assertThat(classUT.status(),equalTo(NotificationCallBack.Status.Failed));
+		assertThat(classUT.status(),
+				equalTo(NotificationCallBack.Status.Failed));
 	}
-	
+
 	@Test
-	public void onCancelledTest(){
+	public void onCancelledTest() {
 		classUT.cancelled();
-		assertThat(classUT.status(),equalTo(NotificationCallBack.Status.Canceled));
+		assertThat(classUT.status(),
+				equalTo(NotificationCallBack.Status.Canceled));
 	}
-	
+
 	@Test
-	public void isDoneOnCompleteTest(){
+	public void isDoneOnCompleteTest() {
 		assertFalse(classUT.isDone());
 		classUT.completed(mockedResponse);
 		assertTrue(classUT.isDone());
 	}
-	
+
 	@Test
-	public void isDoneOnFailedTest(){
+	public void isDoneOnFailedTest() {
 		assertFalse(classUT.isDone());
 		classUT.failed(mockedExpcetion);
 		assertTrue(classUT.isDone());
 	}
-	
+
 	@Test
-	public void isDoneOnCancelledTest(){
+	public void isDoneOnCancelledTest() {
 		assertFalse(classUT.isDone());
 		classUT.cancelled();
 		assertTrue(classUT.isDone());
 	}
-	
+
 	@Test
-	public void checkStatusOnHttpError(){
+	public void checkStatusOnHttpError() {
 		when(mockedResponse.getCode()).thenReturn(401);
 		classUT.completed(mockedResponse);
-		assertThat(classUT.status(),equalTo(NotificationCallBack.Status.Error));
+		assertThat(classUT.status(), equalTo(NotificationCallBack.Status.Error));
 	}
+
+	@Test
+	public void userObjectDeserialTest() throws IOException, JSONException, URISyntaxException {
+		java.net.URL url = CompletionNotifierTest.class
+				.getResource("UserData.txt");
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		String text = new String(java.nio.file.Files.readAllBytes(resPath),
+				"UTF8");
+		JSONObject expected = new  JSONObject(text);
+		UserBean bean = classUT.<UserBean> deserialize(text, UserBean.class);
+		System.out.println(bean.toString());
+		assertThat(expected.getString("first_name"),equalTo(bean.getFirstName()));
+		
+	}
+
 }

@@ -27,6 +27,7 @@ public class Main {
 		}
 		if(userDetailsCallback.status() == Status.Completed){
 			JSONObject object = userDetailsCallback.getJsonObject();
+			//Get the user class here
 			System.out.println(object.get("first_name"));
 		}
 		System.out.println("Done");

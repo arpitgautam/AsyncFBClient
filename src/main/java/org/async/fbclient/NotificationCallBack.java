@@ -1,5 +1,7 @@
 package org.async.fbclient;
 
+import org.json.JSONObject;
+
 public interface NotificationCallBack {
 
 	Status status();
@@ -7,4 +9,6 @@ public interface NotificationCallBack {
 		Completed,OnGoing,Canceled,Failed,Error
 	}
 	boolean isDone();
+	JSONObject getJsonObject();
+	<T> T deserialize(String json,Class<T> c);
 }

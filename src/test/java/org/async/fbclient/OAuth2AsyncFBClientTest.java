@@ -12,6 +12,7 @@ import static org.mockito.Matchers.anyString;
 
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
+import com.restfb.json.JsonObject;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OAuth2AsyncFBClientTest {
@@ -39,7 +40,7 @@ public class OAuth2AsyncFBClientTest {
 		Mockito.when(mockedGetRequest.header(anyString(), anyString()))
 				.thenReturn(mockedHttpRequest);
 		Mockito.when(mockedHttpRequest.header(anyString(), anyString()))
-		.thenReturn(mockedHttpRequest);
+				.thenReturn(mockedHttpRequest);
 	}
 
 	@Test
@@ -47,5 +48,4 @@ public class OAuth2AsyncFBClientTest {
 		classUT.getUserDetails(mockedCallback);
 		Mockito.verify(mockedHttpRequest).asJsonAsync(mockedCallback);
 	}
-
 }

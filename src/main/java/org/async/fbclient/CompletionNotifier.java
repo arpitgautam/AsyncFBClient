@@ -2,6 +2,9 @@ package org.async.fbclient;
 
 import org.json.JSONObject;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.async.Callback;
@@ -49,6 +52,14 @@ public class CompletionNotifier implements Callback<JsonNode>,
 		return status != Status.OnGoing;
 	}
 
+	public <T> T deserialize(String json, Class<T> c) {
+		Gson gson = new GsonBuilder().setFieldNamingPolicy(
+				FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+		T deserializedObject = gson.fromJson(json, c);
+		return deserializedObject;
+	}
+
 	private Status status;
 	private JSONObject jsonObject;
+
 }
