@@ -53,8 +53,7 @@ public class CompletionNotifier implements Callback<JsonNode>,
 	}
 
 	public <T> T deserialize(String json, Class<T> c) {
-		Gson gson = new GsonBuilder().setFieldNamingPolicy(
-				FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+		Gson gson = CustomGsonBuilder.create();
 		T deserializedObject = gson.fromJson(json, c);
 		return deserializedObject;
 	}
