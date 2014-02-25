@@ -2,6 +2,13 @@ package org.async.fbclient;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+
+import org.hamcrest.core.IsNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,6 +96,49 @@ public class CompletionNotifierTest {
 		when(mockedResponse.getCode()).thenReturn(401);
 		classUT.completed(mockedResponse);
 		assertThat(classUT.status(), equalTo(NotificationCallBack.Status.Error));
+	}
+
+	@Test
+	public void hasNextNegative() throws UnsupportedEncodingException,
+			URISyntaxException, IOException, JSONException {
+		String json = readResource("UserData.txt");
+		classUT.setJsonObject(new JSONObject(json));
+		assertFalse(classUT.hasNext());
+	}
+
+	@Test
+	public void hasNextPositive() throws UnsupportedEncodingException,
+			URISyntaxException, IOException, JSONException {
+		String json = readResource("FriendsData.txt");
+		classUT.setJsonObject(new JSONObject(json));
+		assertTrue(classUT.hasNext());
+	}
+
+	@Test
+	public void nextURLNegative() throws UnsupportedEncodingException,
+			URISyntaxException, IOException, JSONException {
+		String json = readResource("UserData.txt");
+		classUT.setJsonObject(new JSONObject(json));
+		assertNull(classUT.nextURL());
+	}
+
+	@Test
+	public void nextURLPositive() throws UnsupportedEncodingException,
+			URISyntaxException, IOException, JSONException {
+		String json = readResource("FriendsData.txt");
+		classUT.setJsonObject(new JSONObject(json));
+		assertThat(
+				classUT.nextURL(),
+				equalTo("https://graph.facebook.com/12312132311/friends?limit=5000&offset=5000&__after_id=0987654"));
+	}
+
+	// TODO- move this to a helper class
+	private static String readResource(String fileName)
+			throws URISyntaxException, UnsupportedEncodingException,
+			IOException {
+		java.net.URL url = CompletionNotifierTest.class.getResource(fileName);
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		return new String(java.nio.file.Files.readAllBytes(resPath), "UTF8");
 	}
 
 }

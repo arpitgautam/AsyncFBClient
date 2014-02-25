@@ -1,4 +1,4 @@
-package org.async.fbclient;
+package org.async.fbclient.beans;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 
+import org.async.fbclient.CompletionNotifier;
+import org.async.fbclient.CompletionNotifierTest;
+import org.async.fbclient.CustomGsonBuilder;
 import org.async.fbclient.beans.user.User;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
 
 import com.mashape.unirest.request.GetRequest;
@@ -46,5 +47,14 @@ public class OAuth2AsyncFBClientTest {
 	public void getUserDetailsTest() {
 		classUT.getUserDetails(mockedCallback);
 		Mockito.verify(mockedHttpRequest).asJsonAsync(mockedCallback);
+	}
+	
+	@Test
+	public void hasNextTest() {
+		classUT.getUserDetails(mockedCallback);
+		classUT.hasNext();
+		Mockito.verify(mockedCallback).hasNext();
+		Mockito.verify(mockedCallback).nextURL();
+		
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import org.async.fbclient.NotificationCallBack.Status;
+import org.async.fbclient.beans.user.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,15 +23,18 @@ public class Main {
 		CompletionNotifier friendListCallBack = new CompletionNotifier();
 		fbC.getUserDetails(userDetailsCallback);
 		fbC.getFriendList(friendListCallBack);
-		while(!userDetailsCallback.isDone() && !friendListCallBack.isDone()){
+		while(!friendListCallBack.isDone()){
+			//do what you want with response here
 			Thread.sleep(100);
+			//check for next
+			//fetch next
 		}
 		if(userDetailsCallback.status() == Status.Completed){
-			JSONObject object = userDetailsCallback.getJsonObject();
-			//Get the user class here
-			System.out.println(object.get("first_name"));
+			User user = userDetailsCallback.deserialize(User.class);
+			System.out.println(user.getName());
+			System.out.println(user.getBirthday());
+			
 		}
-		System.out.println("Done");
 	}
 }
 

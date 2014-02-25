@@ -11,4 +11,7 @@ public interface NotificationCallBack {
 	boolean isDone();
 	JSONObject getJsonObject();
 	<T> T deserialize(String json,Class<T> c);
+	public <T> T deserialize(Class<T> c);
+	boolean hasNext();
+	String nextURL();
 }

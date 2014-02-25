@@ -1,0 +1,27 @@
+{
+   "data": [
+      {
+         "name": "Friend1",
+         "id": "23456789"
+      },
+      {
+         "name": "Friend2",
+         "id": "788765432"
+      },
+      {
+         "name": "Friend3",
+         "id": "2345678"
+      },
+      {
+         "name": "Friend4",
+         "id": "932784980934"
+      },
+      {
+         "name": "Friend5",
+         "id": "876545"
+      }
+   ],
+   "paging": {
+      "next": "https://graph.facebook.com/12312132311/friends?limit=5000&offset=5000&__after_id=0987654"
+   }
+}
