@@ -22,6 +22,7 @@ public class Main {
 		CompletionNotifier userCompletionNotifier = new CompletionNotifier();
 		fbC.getUserDetails(userCompletionNotifier);
 		while(!userCompletionNotifier.isDone()){
+			//DO other processing here
 			Thread.sleep(1000);
 		}
 		
