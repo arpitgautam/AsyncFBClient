@@ -19,22 +19,18 @@ public class Main {
 		String ACCESS_TOKEN = props.getProperty("ACCESS_TOKEN");
 	
 		AsyncFBClient fbC = new OAuth2AsyncFBClient(ACCESS_TOKEN,new UniRestWrapper());
-		CompletionNotifier userDetailsCallback = new CompletionNotifier();
-		CompletionNotifier friendListCallBack = new CompletionNotifier();
-		fbC.getUserDetails(userDetailsCallback);
-		fbC.getFriendList(friendListCallBack);
-		while(!friendListCallBack.isDone()){
-			//do what you want with response here
-			Thread.sleep(100);
-			//check for next
-			//fetch next
+		CompletionNotifier userCompletionNotifier = new CompletionNotifier();
+		fbC.getUserDetails(userCompletionNotifier);
+		while(!userCompletionNotifier.isDone()){
+			Thread.sleep(1000);
 		}
-		if(userDetailsCallback.status() == Status.Completed){
-			User user = userDetailsCallback.deserialize(User.class);
-			System.out.println(user.getName());
-			System.out.println(user.getBirthday());
-			
+		
+		if(userCompletionNotifier.status() == Status.Completed){
+			User user = userCompletionNotifier.deserialize(User.class);
+			System.out.println(user.getFirst_name());
+			System.out.println(user.getLast_name());
 		}
+		
 	}
 }
 

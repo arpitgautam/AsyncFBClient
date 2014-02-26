@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 
+import org.async.fbclient.NotificationCallBack.Status;
 import org.hamcrest.core.IsNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -130,6 +131,14 @@ public class CompletionNotifierTest {
 		assertThat(
 				classUT.nextURL(),
 				equalTo("https://graph.facebook.com/12312132311/friends?limit=5000&offset=5000&__after_id=0987654"));
+	}
+	
+	@Test
+	public void testInit(){
+		classUT.completed(mockedResponse);
+		assertThat(classUT.status(),equalTo(Status.Completed));
+		classUT.init();
+		assertThat(classUT.status(),equalTo(Status.OnGoing));
 	}
 
 	// TODO- move this to a helper class

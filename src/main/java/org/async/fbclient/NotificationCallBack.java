@@ -14,4 +14,5 @@ public interface NotificationCallBack {
 	public <T> T deserialize(Class<T> c);
 	boolean hasNext();
 	String nextURL();
+	void init();
 }

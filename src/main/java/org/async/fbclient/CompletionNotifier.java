@@ -15,7 +15,7 @@ public class CompletionNotifier implements Callback<JsonNode>,
 		NotificationCallBack {
 
 	public CompletionNotifier() {
-		status = Status.OnGoing;
+		init();
 	}
 	
 	//TODO- add init here, that will be called before next
@@ -94,5 +94,9 @@ public class CompletionNotifier implements Callback<JsonNode>,
 			}
 		}
 		return ret;
+	}
+
+	public void init() {
+		status = Status.OnGoing;
 	}
 }

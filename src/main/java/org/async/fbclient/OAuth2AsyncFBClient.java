@@ -37,8 +37,12 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 		return next;
 	}
 
-	public void getNext() {
-		//use nextURL to getNext
+	public void getNext(Callback<JsonNode> callBack) {
+		/*this.callBack = (NotificationCallBack)callBack;
+		this.callBack.init();
+		wrapper.get(nextURL).header("Content-Type", "application/json")
+		.header("Authorization", "Bearer " + access_token)
+		.asJsonAsync(callBack);*/
 		return ;
 	}
 

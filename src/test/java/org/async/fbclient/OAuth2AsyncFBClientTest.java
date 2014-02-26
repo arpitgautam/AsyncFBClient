@@ -57,4 +57,11 @@ public class OAuth2AsyncFBClientTest {
 		Mockito.verify(mockedCallback).nextURL();
 		
 	}
+	@Test
+	public void friendList(){
+		//classUT.getFriendList(mockedCallback);
+		//wait for it to complete here
+		//check for next
+		//fetch next
+	}
 }

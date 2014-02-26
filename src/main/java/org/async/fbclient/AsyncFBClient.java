@@ -11,6 +11,5 @@ public interface AsyncFBClient {
 	void getFriendList(Callback<JsonNode> friendListCallBack);
 	
 	boolean hasNext();
-	void getNext();
-
+	void getNext(Callback<JsonNode> usercallBack);
 }
