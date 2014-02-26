@@ -18,32 +18,32 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 	}
 
 	public void getUserDetails(Callback<JsonNode> usercallBack) {
-		this.callBack = (NotificationCallBack)usercallBack;
+		this.callBack = (NotificationCallBack) usercallBack;
 		wrapper.get(meURL).header("Content-Type", "application/json")
 				.header("Authorization", "Bearer " + access_token)
 				.asJsonAsync(usercallBack);
 	}
 
 	public void getFriendList(Callback<JsonNode> friendListCallBack) {
-		this.callBack = (NotificationCallBack)friendListCallBack;
+		this.callBack = (NotificationCallBack) friendListCallBack;
 		wrapper.get(friendURL).header("Content-Type", "application/json")
 				.header("Authorization", "Bearer " + access_token)
 				.asJsonAsync(friendListCallBack);
 	}
 
 	public boolean hasNext() {
-		boolean next =  callBack.hasNext();
+		boolean next = callBack.hasNext();
 		nextURL = callBack.nextURL();
 		return next;
 	}
 
 	public void getNext(Callback<JsonNode> callBack) {
-		/*this.callBack = (NotificationCallBack)callBack;
+		this.callBack = (NotificationCallBack) callBack;
 		this.callBack.init();
 		wrapper.get(nextURL).header("Content-Type", "application/json")
-		.header("Authorization", "Bearer " + access_token)
-		.asJsonAsync(callBack);*/
-		return ;
+				.header("Authorization", "Bearer " + access_token)
+				.asJsonAsync(callBack);
+		return;
 	}
 
 }

@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 
 import org.async.fbclient.NotificationCallBack.Status;
-import org.hamcrest.core.IsNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;

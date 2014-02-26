@@ -10,6 +10,7 @@ import org.async.fbclient.NotificationCallBack.Status;
 import org.async.fbclient.beans.user.User;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mockito.Mockito;
 
 public class Main {
 
@@ -19,19 +20,23 @@ public class Main {
 		String ACCESS_TOKEN = props.getProperty("ACCESS_TOKEN");
 	
 		AsyncFBClient fbC = new OAuth2AsyncFBClient(ACCESS_TOKEN,new UniRestWrapper());
-		CompletionNotifier userCompletionNotifier = new CompletionNotifier();
-		fbC.getUserDetails(userCompletionNotifier);
-		while(!userCompletionNotifier.isDone()){
-			//DO other processing here
-			Thread.sleep(1000);
+		CompletionNotifier notifier = new CompletionNotifier();
+		fbC.getFriendList(notifier);
+		while(true){
+			if(!notifier.isDone()){
+				Thread.sleep(1000);
+				//do more processing here
+			}else{
+				System.out.println(notifier.getJsonObject().get("data"));
+				 if(fbC.hasNext()){
+					 fbC.getNext(notifier);	
+					
+				 }else{
+					 break;
+				 }
+			}
 		}
-		
-		if(userCompletionNotifier.status() == Status.Completed){
-			User user = userCompletionNotifier.deserialize(User.class);
-			System.out.println(user.getFirst_name());
-			System.out.println(user.getLast_name());
-		}
-		
+		System.out.println("Done");
 	}
 }
 
