@@ -23,6 +23,10 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 				.header("Authorization", "Bearer " + access_token)
 				.asJsonAsync(usercallBack);
 	}
+	
+	public void getUserDetails(String id,Callback<JsonNode> usercallBack) {
+		//TODO- implement this
+	}
 
 	public void getFriendList(Callback<JsonNode> friendListCallBack) {
 		this.callBack = (NotificationCallBack) friendListCallBack;
