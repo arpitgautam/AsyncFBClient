@@ -19,10 +19,10 @@ public class Main {
 		props.load(new FileInputStream("properties/app.properties"));
 		String ACCESS_TOKEN = props.getProperty("ACCESS_TOKEN");
 
-		AsyncFBClient fbC = new OAuth2AsyncFBClient(ACCESS_TOKEN,
+		AsyncFBClient fbClient = new OAuth2AsyncFBClient(ACCESS_TOKEN,
 				new UniRestWrapper());
 		CompletionNotifier notifier = new CompletionNotifier();
-		fbC.getFriendList(notifier);
+		fbClient.getFriendList(notifier);
 		// TODO- find a way to encapsulate this pattern
 		while (true) {
 			if (!notifier.isDone()) {
@@ -30,8 +30,8 @@ public class Main {
 				// do processing here in the meanwhile
 			} else {
 				Friends friends = notifier.deserialize(Friends.class);
-				if (fbC.hasNext()) {
-					fbC.getNext(notifier);
+				if (fbClient.hasNext()) {
+					fbClient.getNext(notifier);
 
 				} else {
 					break;
