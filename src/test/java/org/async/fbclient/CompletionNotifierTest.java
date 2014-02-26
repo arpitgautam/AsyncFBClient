@@ -122,6 +122,7 @@ public class CompletionNotifierTest {
 		assertNull(classUT.nextURL());
 	}
 
+	//Changing resource file may break this test case
 	@Test
 	public void nextURLPositive() throws UnsupportedEncodingException,
 			URISyntaxException, IOException, JSONException {

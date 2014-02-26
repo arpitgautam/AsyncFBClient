@@ -17,7 +17,7 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 		this.wrapper = wrapper;
 	}
 
-	public void getUserDetails(Callback<JsonNode> usercallBack) {
+	public void getMyDetails(Callback<JsonNode> usercallBack) {
 		this.callBack = (NotificationCallBack) usercallBack;
 		wrapper.get(meURL).header("Content-Type", "application/json")
 				.header("Authorization", "Bearer " + access_token)
@@ -45,5 +45,4 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 				.asJsonAsync(callBack);
 		return;
 	}
-
 }

@@ -48,13 +48,13 @@ public class OAuth2AsyncFBClientTest {
 
 	@Test
 	public void getUserDetailsTest() {
-		classUT.getUserDetails(mockedCallback);
+		classUT.getMyDetails(mockedCallback);
 		Mockito.verify(mockedHttpRequest).asJsonAsync(mockedCallback);
 	}
 	
 	@Test
 	public void hasNextTest() {
-		classUT.getUserDetails(mockedCallback);
+		classUT.getMyDetails(mockedCallback);
 		classUT.hasNext();
 		Mockito.verify(mockedCallback).hasNext();
 		Mockito.verify(mockedCallback).nextURL();

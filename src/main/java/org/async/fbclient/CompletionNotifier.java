@@ -17,8 +17,6 @@ public class CompletionNotifier implements Callback<JsonNode>,
 	public CompletionNotifier() {
 		init();
 	}
-	
-	//TODO- add init here, that will be called before next
 
 	public JSONObject getJsonObject() {
 		return jsonObject;
