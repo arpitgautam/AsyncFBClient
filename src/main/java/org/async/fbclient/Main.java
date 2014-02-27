@@ -23,7 +23,7 @@ public class Main {
 				new UniRestWrapper());
 		CompletionNotifier notifier = new CompletionNotifier();
 		fbClient.getFriendList(notifier);
-		// TODO- find a way to encapsulate this pattern
+		// TODO- find a way to encapsulate this pattern.
 		while (true) {
 			if (!notifier.isDone()) {
 				Thread.sleep(1000);
