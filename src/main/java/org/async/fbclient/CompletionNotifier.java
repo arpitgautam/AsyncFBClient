@@ -3,9 +3,7 @@ package org.async.fbclient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.async.Callback;

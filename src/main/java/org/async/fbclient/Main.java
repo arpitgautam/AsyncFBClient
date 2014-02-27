@@ -30,15 +30,15 @@ public class Main {
 				// do processing here in the meanwhile
 			} else {
 				Friends friends = notifier.deserialize(Friends.class);
+				//process result from last req here
+				for (Datum data : friends.getData()) {
+					System.out.println(data.getName());
+				}
 				if (fbClient.hasNext()) {
 					fbClient.getNext(notifier);
 
 				} else {
 					break;
-				}
-				//process result from last req here
-				for (Datum data : friends.getData()) {
-					System.out.println(data.getName());
 				}
 			}
 		}

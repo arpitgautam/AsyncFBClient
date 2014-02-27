@@ -1,7 +1,5 @@
 package org.async.fbclient;
 
-
-import org.async.fbclient.NotificationCallBack.Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +11,6 @@ import static org.mockito.Matchers.anyString;
 
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OAuth2AsyncFBClientTest {
@@ -38,8 +33,8 @@ public class OAuth2AsyncFBClientTest {
 	}
 
 	private void mockDependecyMethodCalls() {
-		Mockito.when(mockedWrapper.get(anyString()))
-				.thenReturn(mockedGetRequest);
+		Mockito.when(mockedWrapper.get(anyString())).thenReturn(
+				mockedGetRequest);
 		Mockito.when(mockedGetRequest.header(anyString(), anyString()))
 				.thenReturn(mockedHttpRequest);
 		Mockito.when(mockedHttpRequest.header(anyString(), anyString()))
@@ -50,41 +45,55 @@ public class OAuth2AsyncFBClientTest {
 	public void getUserDetailsTest() {
 		classUT.getMyDetails(mockedCallback);
 		Mockito.verify(mockedHttpRequest).asJsonAsync(mockedCallback);
+		Mockito.verify(mockedWrapper).get(Endpoints.get("me"));
+		
 	}
-	
+
 	@Test
 	public void hasNextTest() {
 		classUT.getMyDetails(mockedCallback);
 		classUT.hasNext();
 		Mockito.verify(mockedCallback).hasNext();
 		Mockito.verify(mockedCallback).nextURL();
-		
+
 	}
+
 	@Test
-	public void friendListPaged() throws InterruptedException{
+	public void myFriendListPaged() throws InterruptedException {
 		String nextURL = "dummyURL";
 		classUT.getFriendList(mockedCallback);
+		Mockito.verify(mockedWrapper
+				.get(Endpoints.get("friends")));
 		Mockito.when(mockedCallback.isDone()).thenReturn(true);
 		Mockito.when(mockedCallback.hasNext()).thenReturn(true);
 		Mockito.when(mockedCallback.nextURL()).thenReturn(nextURL);
-		
-		while(true){
-			if(!mockedCallback.isDone()){
+
+		while (true) {
+			if (!mockedCallback.isDone()) {
 				Thread.sleep(1000);
-				//do more processing here
-			}else{
-				//process last call payload here
-				 if(classUT.hasNext()){
-					classUT.getNext(mockedCallback);	
+				// do more processing here
+			} else {
+				// process last call payload here
+				if (classUT.hasNext()) {
+					classUT.getNext(mockedCallback);
 					Mockito.verify(mockedWrapper).get(nextURL);
 					Mockito.verify(mockedCallback).init();
 					Mockito.when(mockedCallback.hasNext()).thenReturn(false);
-				 }else{
-					 break;
-				 }
+				} else {
+					break;
+				}
 			}
 		}
-		Mockito.verify(mockedHttpRequest,Mockito.times(2)).asJsonAsync(mockedCallback);
+		Mockito.verify(mockedHttpRequest, Mockito.times(2)).asJsonAsync(
+				mockedCallback);
+	}
+	
+	@Test
+	public void userDetailsById(){
+		classUT.getUserDetails("1234",mockedCallback);
+		String expectedURL = String.format(Endpoints.get("user-with-id"),"1234");
+		Mockito.verify(mockedWrapper).get(expectedURL);
+		Mockito.verify(mockedHttpRequest).asJsonAsync(mockedCallback);
 		
 	}
 }

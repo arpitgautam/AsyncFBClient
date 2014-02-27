@@ -7,8 +7,6 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 
 	private String access_token;
 	private UniRestWrapper wrapper;
-	private static final String meURL = "https://graph.facebook.com/me";
-	private static final String friendURL = "https://graph.facebook.com/me/friends";
 	private String nextURL;
 	private NotificationCallBack callBack;
 
@@ -19,18 +17,23 @@ public class OAuth2AsyncFBClient implements AsyncFBClient {
 
 	public void getMyDetails(Callback<JsonNode> usercallBack) {
 		this.callBack = (NotificationCallBack) usercallBack;
-		wrapper.get(meURL).header("Content-Type", "application/json")
+		wrapper.get(Endpoints.get("me")).header("Content-Type", "application/json")
 				.header("Authorization", "Bearer " + access_token)
 				.asJsonAsync(usercallBack);
 	}
 	
-	public void getUserDetails(String id,Callback<JsonNode> usercallBack) {
-		//TODO- implement this
+	public void getUserDetails(String id,Callback<JsonNode> callback) {
+		String url = Endpoints.get("user-with-id");
+		url = String.format(url, id);
+		this.callBack = (NotificationCallBack) callback;
+		wrapper.get(url).header("Content-Type", "application/json")
+				.header("Authorization", "Bearer " + access_token)
+				.asJsonAsync(callback);
 	}
 
 	public void getFriendList(Callback<JsonNode> friendListCallBack) {
 		this.callBack = (NotificationCallBack) friendListCallBack;
-		wrapper.get(friendURL).header("Content-Type", "application/json")
+		wrapper.get(Endpoints.get("friends")).header("Content-Type", "application/json")
 				.header("Authorization", "Bearer " + access_token)
 				.asJsonAsync(friendListCallBack);
 	}
