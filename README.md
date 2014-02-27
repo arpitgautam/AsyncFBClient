@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/arpitgautam/AsyncFBClient.png)](https://travis-ci.org/arpitgautam/AsyncFBClient)
+
 AsyncFBClient
 =============
 An Asynchronous light wrapper around uniRest for accessing facebook graph API.
