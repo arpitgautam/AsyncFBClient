@@ -1,4 +1,4 @@
-AsyncFBClient [![Build Status](https://api.travis-ci.org/arpitgautam/AsyncFBClient.png)](https://travis-ci.org/arpitgautam/AsyncFBClient)
+# AsyncFBClient [![Build Status](https://api.travis-ci.org/arpitgautam/AsyncFBClient.png)](https://travis-ci.org/arpitgautam/AsyncFBClient)
 
 =============
 An Asynchronous light wrapper around uniRest for accessing facebook graph API.
