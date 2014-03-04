@@ -33,4 +33,29 @@ Usage
 			}
 		}
 	}
+	
+Or there is a sync mode too
+
+	FBClient fbClient = new OAuth2AsyncFBClient(ACCESS_TOKEN,
+				new UniRestWrapper());
+		CompletionNotifier notifier = new CompletionNotifier();
+		fbClient.setCallBack(notifier);
+		fbClient.setSyncMode(true);
+		fbClient.getFriendList();
+		while(true && notifier.status() == Status.Completed){
+			Friends friends = fbClient.deserialize(Friends.class);
+			//process result from last req here
+			for (Datum data : friends.getData()) {
+				System.out.println(data.getName());
+			}
+			if (fbClient.hasNext()) {
+				fbClient.getNext();
+
+			} else {
+				break;
+			}
+
+		}
+		System.out.println(notifier.status());
+	}
 
