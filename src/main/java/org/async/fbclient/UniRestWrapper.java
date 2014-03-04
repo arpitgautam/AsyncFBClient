@@ -1,7 +1,7 @@
 package org.async.fbclient;
 
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.request.GetRequest;
+import com.mashape.unirest.request.HttpRequest;
 
 /**
  * As UniRest contains a lot of static methods
@@ -12,8 +12,9 @@ import com.mashape.unirest.request.GetRequest;
  */
 public class UniRestWrapper {
 	
-	public GetRequest get(String url){
-		return Unirest.get(url);
+	public HttpRequest get(String url,String access_token){
+		return Unirest.get(url).header("Content-Type", "application/json")
+		.header("Authorization", "Bearer " + access_token);
 	}
 
 }

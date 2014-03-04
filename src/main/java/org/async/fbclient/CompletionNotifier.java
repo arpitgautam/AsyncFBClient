@@ -3,7 +3,6 @@ package org.async.fbclient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.async.Callback;
@@ -50,19 +49,7 @@ public class CompletionNotifier implements Callback<JsonNode>,
 	public boolean isDone() {
 		return status != Status.OnGoing;
 	}
-
-	public <T> T deserialize(String json, Class<T> c) {
-		Gson gson = CustomGsonBuilder.create();
-		T deserializedObject = gson.fromJson(json, c);
-		return deserializedObject;
-	}
-
-	public <T> T deserialize(Class<T> c) {
-		Gson gson = CustomGsonBuilder.create();
-		T deserializedObject = gson.fromJson(jsonObject.toString(), c);
-		return deserializedObject;
-	}
-
+	
 	private Status status;
 	private JSONObject jsonObject;
 

@@ -9,9 +9,11 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.async.fbclient.CompletionNotifier;
 import org.async.fbclient.CompletionNotifierTest;
 import org.async.fbclient.CustomGsonBuilder;
+import org.async.fbclient.FBClient;
+import org.async.fbclient.OAuth2AsyncFBClient;
+import org.async.fbclient.UniRestWrapper;
 import org.async.fbclient.beans.friends.Friends;
 import org.async.fbclient.beans.user.User;
 import org.json.JSONException;
@@ -20,21 +22,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.mockito.Mock;
 
 import com.google.gson.Gson;
 
 @RunWith(Parameterized.class)
 public class BeanSerializationTest {
 
-	private CompletionNotifier classUT;
+	private FBClient classUT;
 	private String jsonText;
 	private Class<?> beanClass;
 	private JSONObject expectedJson;
 	private String fileName;
-
+	@Mock 
+	private UniRestWrapper mockedWrapper;
+	
 	@Before
 	public void setup() {
-		classUT = new CompletionNotifier();
+		classUT = new OAuth2AsyncFBClient("",mockedWrapper);
 	}
 
 	public BeanSerializationTest(String fileName,Class<?> classs) {
